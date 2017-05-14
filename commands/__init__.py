@@ -3,8 +3,7 @@ from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler
 from telegram.ext import Filters
 from copy import deepcopy
-import pkgutil
-import inspect
+from utils.get_module import get_module
 
 
 class Command(object):
@@ -78,14 +77,4 @@ class Message(object):
                                                   message_updates=command_args["message_updates"],
                                                   channel_posts_updates=command_args["channel_posts_updates"]))
 
-__all__ = []
-
-for loader, name, is_pkg in pkgutil.walk_packages(__path__):
-    module = loader.find_module(name).load_module(name)
-
-    for name, value in inspect.getmembers(module):
-        if name.startswith('__'):
-            continue
-
-        globals()[name] = value
-        __all__.append(name)
+__all__ = get_module(__path__)
