@@ -17,11 +17,9 @@ class Command(object):
                      "pass_job_queue": pass_job_queue,
                      "pass_user_data": pass_user_data,
                      "pass_chat_data": pass_chat_data}
-        print(self._tmp)
 
     def __call__(self, f, *args, **kwargs):
         self._functions[f.__name__] = (f, deepcopy(self._tmp))
-        print(self._functions[f.__name__])
 
         def wrapper(*args, **kwargs):
             return f(*args, **kwargs)
