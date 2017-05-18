@@ -1,8 +1,13 @@
-from app import App
+from configuration.basic_configuration import BasicConfiguration
+from admin.admin import admin
+
+config_file = BasicConfiguration('./resources/configuration.ini')
+admin = admin(config_file.admins)
 
 
 def main():
-    app = App('./resources/configuration.ini')
+    from app import App
+    app = App(config_file.token)
     app.run()
 
 

@@ -1,15 +1,13 @@
 from telegram.ext import Updater
 from commands import Command
 from commands import Message
-from configuration.basic_configuration import BasicConfiguration
 
 
 class App(object):
-    def __init__(self, config_file):
+    def __init__(self, token: str):
         self._command = Command()
         self._message = Message()
-        self._config = BasicConfiguration(config_file)
-        self._updater = Updater(self._config.token)
+        self._updater = Updater(token)
 
     def run(self):
         self.command.init_dispatcher(self.updater)
@@ -24,10 +22,6 @@ class App(object):
     @property
     def message(self):
         return self._message
-
-    @property
-    def config(self):
-        return self._config
 
     @property
     def updater(self):
