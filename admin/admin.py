@@ -1,16 +1,13 @@
 from functools import wraps
+from main import config_file
 
 
 def admin(user_group):
-    print("in admin")
 
     def group_restriction(func):
-        print("in group_restriction")
 
         @wraps(func)
         def wrapper(bot, update, *args, **kwargs):
-            print("user_group", user_group)
-            print(kwargs)
             # extract user_id from arbitrary update
             try:
                 user_id = update.message.from_user.id
@@ -26,6 +23,13 @@ def admin(user_group):
                         except (NameError, AttributeError):
                             print("No user_id available in update.")
                             return
+
+            if config_file.trust_admin_in_chan:
+                for admin_info in bot.get_chat_administrators(update.message.chat_id):
+                    admin_id = admin_info.user.id
+                    if admin_id not in user_group:
+                        user_group.append(admin_id)
+
             if user_id not in user_group:
                 print(user_id, user_group, user_id in user_group)
                 print("Unauthorized access denied : ", user_id)
