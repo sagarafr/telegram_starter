@@ -1,5 +1,4 @@
 from functools import wraps
-from main import config_file
 
 
 def admin(user_group):
@@ -8,6 +7,8 @@ def admin(user_group):
 
         @wraps(func)
         def wrapper(bot, update, *args, **kwargs):
+            from main import config_file
+
             # extract user_id from arbitrary update
             try:
                 user_id = update.message.from_user.id
