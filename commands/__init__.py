@@ -21,10 +21,7 @@ class Command(object):
 
     def __call__(self, f, *args, **kwargs):
         self._functions[f.__name__] = (f, deepcopy(self._tmp))
-
-        def wrapper(*args, **kwargs):
-            return f(*args, **kwargs)
-        return wrapper
+        return f
 
     def init_dispatcher(self, updater: Updater):
         dispatcher = updater.dispatcher
@@ -57,10 +54,7 @@ class Message(object):
 
     def __call__(self, f, *args, **kwargs):
         self._functions[f.__name__] = (f, deepcopy(self._tmp))
-
-        def wrapper(*args, **kwargs):
-            return f(*args, **kwargs)
-        return wrapper
+        return f
 
     def init_dispatcher(self, updater: Updater):
         dispatcher = updater.dispatcher
