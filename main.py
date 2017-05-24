@@ -2,7 +2,7 @@ from configuration.basic_configuration import BasicConfiguration
 from admin.admin import admin
 
 config_file = BasicConfiguration('./resources/configuration.ini')
-admin = admin(config_file.admins)
+admin_grp = admin(config_file.admins)
 
 
 def main():
