@@ -8,7 +8,7 @@ class BasicConfiguration(object):
             self._parser.read_file(fd_file)
             self._admin = None if not self._parser.has_option('DEFAULT', 'admins') else [int(e) for e in self._parser['DEFAULT']['admins'].split(';') if str(e).isdigit()]
             self._trust_admin_in_chan = None
-            if not self._parser.has_option('DEFAULT', 'trust_admin_in_chan'):
+            if self._parser.has_option('DEFAULT', 'trust_admin_in_chan'):
                 try:
                     self._trust_admin_in_chan = self._parser.getboolean('DEFAULT', 'trust_admin_in_chan')
                 except ValueError:
