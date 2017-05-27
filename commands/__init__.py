@@ -8,6 +8,7 @@ from utils.get_module import get_module
 
 class Command(object):
     _functions = dict()
+    _doc_functions = dict()
     _tmp = dict()
 
     def __init__(self, pass_args=False, pass_update_queue=False,
@@ -20,8 +21,15 @@ class Command(object):
                      "pass_chat_data": pass_chat_data}
 
     def __call__(self, f, *args, **kwargs):
+        from inspect import getdoc
         self._functions[f.__name__] = (f, deepcopy(self._tmp))
+        self._doc_functions[f.__name__] = getdoc(f)
         return f
+
+    def _help(self):
+        def help(bot, update):
+            bot.sendMessage(chat_id=update.message.chat_id, text='\n'.join(["/{} : {}".format(key, self._doc_functions[key]) for key in self._doc_functions if self._doc_functions[key] is not None]))
+        return help
 
     def init_dispatcher(self, updater: Updater):
         dispatcher = updater.dispatcher
@@ -34,6 +42,7 @@ class Command(object):
                                                   pass_job_queue=command_args["pass_job_queue"],
                                                   pass_user_data=command_args["pass_user_data"],
                                                   pass_chat_data=command_args["pass_chat_data"]))
+        dispatcher.add_handler(CommandHandler("help", self._help()))
 
 
 class Message(object):
