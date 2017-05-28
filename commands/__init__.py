@@ -2,14 +2,12 @@ from telegram.ext import Updater
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler
 from telegram.ext import Filters
-from copy import deepcopy
 from utils.get_module import get_module
 
 
 class Command(object):
-    _functions = dict()
-    _doc_functions = dict()
-    _tmp = dict()
+    _functions = {}
+    _doc_functions = {}
 
     def __init__(self, pass_args=False, pass_update_queue=False,
                  pass_job_queue=False, pass_user_data=False,
@@ -22,7 +20,7 @@ class Command(object):
 
     def __call__(self, f, *args, **kwargs):
         from inspect import getdoc
-        self._functions[f.__name__] = (f, deepcopy(self._tmp))
+        self._functions[f.__name__] = (f, self._tmp)
         self._doc_functions[f.__name__] = getdoc(f)
         return f
 
@@ -46,8 +44,7 @@ class Command(object):
 
 
 class Message(object):
-    _functions = dict()
-    _tmp = dict()
+    _functions = {}
 
     def __init__(self, allow_edited=False, pass_update_queue=False,
                  pass_job_queue=False, pass_user_data=False,
@@ -62,7 +59,7 @@ class Message(object):
                      "channel_posts_updates": channel_posts_updates}
 
     def __call__(self, f, *args, **kwargs):
-        self._functions[f.__name__] = (f, deepcopy(self._tmp))
+        self._functions[f.__name__] = (f, self._tmp)
         return f
 
     def init_dispatcher(self, updater: Updater):
