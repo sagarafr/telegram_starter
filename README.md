@@ -1,5 +1,11 @@
 # Read me
 
+## Build status
+
+[![Build Status](https://travis-ci.org/sagarafr/telegram_starter.svg?branch=master)](https://travis-ci.org/sagarafr/telegram_starter)
+
+## Introduction
+
 A basic starter for python-telegram-bot.
 
 ## How to add command
