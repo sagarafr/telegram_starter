@@ -1,9 +1,8 @@
 from os import getcwd
-from os.path import join as path_join
-from configuration.basic_configuration import BasicConfiguration
+from configuration.configuration import Configuration
 from admin.admin import admin
 
-config_file = BasicConfiguration(path_join(getcwd(), './resources/configuration.ini'))
+config_file = Configuration(getcwd())
 admin_grp = admin(config_file.admins)
 
 
